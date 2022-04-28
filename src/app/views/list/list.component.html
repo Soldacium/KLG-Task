@@ -1,0 +1,10 @@
+<table matSort (matSortChange)="sortData($event)">
+  <tr>
+    <th mat-sort-header="name">Dessert (100g)</th>
+    <th mat-sort-header="description">Calories</th>
+    <th mat-sort-header="triggerName">Fat (g)</th>
+    <th mat-sort-header="deadline">Carbs (g)</th>
+  </tr>
+  <!-- could be async pipe if not for sort-->
+  <tr app-list-item *ngFor="let item of sortedList" [listItem]="item"></tr>
+</table>
