@@ -1,3 +1,4 @@
+<!--
 <table matSort (matSortChange)="sortData($event)">
   <tr>
     <th mat-sort-header="name">Dessert (100g)</th>
@@ -5,6 +6,66 @@
     <th mat-sort-header="triggerName">Fat (g)</th>
     <th mat-sort-header="deadline">Carbs (g)</th>
   </tr>
-  <!-- could be async pipe if not for sort-->
+  
   <tr app-list-item *ngFor="let item of sortedList" [listItem]="item"></tr>
-</table>
+</table>  
+--><!-- could be async pipe if not for sort-->
+<div class="list-wrapper">
+  <mat-form-field>
+    <input
+      matInput
+      (keyup)="applyFilter($event.target.value)"
+      placeholder="Filter"
+    />
+  </mat-form-field>
+  <div class="mat-elevation-z8">
+    <table
+      mat-table
+      [dataSource]="sortedTable"
+      matSort
+      (matSortChange)="sortData($event)"
+    >
+      <!-- ID Column -->
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>name</th>
+        <td mat-cell *matCellDef="let row">{{ row.name }}</td>
+      </ng-container>
+
+      <!-- Progress Column -->
+      <ng-container matColumnDef="description">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Desc</th>
+        <td mat-cell *matCellDef="let row">{{ row.description }}</td>
+      </ng-container>
+
+      <!-- Name Column -->
+      <ng-container matColumnDef="interimtrigger">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+        <td mat-cell *matCellDef="let row">{{ row.interimtrigger }}</td>
+      </ng-container>
+
+      <!-- Color Column -->
+      <ng-container matColumnDef="modifyDate">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>date</th>
+        <td mat-cell *matCellDef="let row">{{ row.modifyDate }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="buttons">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let row">
+          <button
+            mat-button
+            *ngFor="let button of optionButtons"
+            (click)="button.function(row.id)"
+          >
+            <img [src]="button.icon" alt="" />
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+
+    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+  </div>
+</div>

@@ -1,4 +1,14 @@
+<!--
 <nav>
   <a [routerLink]="['/']">List</a>
   <a [routerLink]="['/element']">Elements</a>
-</nav>
+</nav>  
+-->
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+    <span>Custom Toolbar</span>
+    <span class="spacer"></span>
+    <a mat-button [routerLink]="['/edit-element/new']"> New </a>
+    <a mat-button [routerLink]="['/edit-element/new']"> New </a>
+  </mat-toolbar-row>
+</mat-toolbar>

@@ -1,15 +1,19 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import { ElementComponent } from './views/element/element.component';
-import { ListComponent } from './views/list/list.component';
+import { NgModule } from "@angular/core";
+import { Routes, RouterModule } from "@angular/router";
+import { ElementComponent } from "./views/element/element.component";
+import { ListComponent } from "./views/list/list.component";
 
 const routes: Routes = [
   {
-    path: '',
+    path: "",
     component: ListComponent,
   },
   {
-    path: 'ele',
+    path: "view-element",
+    component: ElementComponent,
+  },
+  {
+    path: "edit-element/:id",
     component: ElementComponent,
   },
 ];

@@ -8,15 +8,23 @@ import { ElementComponent } from "./views/element/element.component";
 import { SharedModule } from "./shared/shared.module";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { MaterialModule } from "./material.module";
+import { NotFoundComponent } from "./views/not-found/not-found.component";
+import { ReactiveFormsModule } from "@angular/forms";
 
 @NgModule({
-  declarations: [AppComponent, ListComponent, ElementComponent],
+  declarations: [
+    AppComponent,
+    ListComponent,
+    ElementComponent,
+    NotFoundComponent,
+  ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
     SharedModule,
     MaterialModule,
+    ReactiveFormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

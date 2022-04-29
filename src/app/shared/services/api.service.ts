@@ -45,5 +45,7 @@ export class ApiService {
     });
   }
 
-  public editElement(index: string, el: ApiResponse): void {}
+  public editElement(id: number, el: ApiResponse): void {}
+
+  public deleteElement(id: number): void {}
 }

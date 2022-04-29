@@ -1,3 +1,87 @@
-<p>
-  element works!
-</p>
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Shiba Inu</mat-card-title>
+  </mat-card-header>
+  <form class="flex-column" [formGroup]="elementForm" (ngSubmit)="update()">
+    <!-- basic -->
+    <mat-form-field appearance="outline">
+      <mat-label>Outline form field</mat-label>
+      <input matInput placeholder="Placeholder" />
+      <mat-hint>Hint</mat-hint>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Trigger name</mat-label>
+      <mat-select>
+        <mat-option *ngFor="let food of foods" [value]="food.value">
+          {{ food.viewValue }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <!-- date -->
+    <mat-card class="flex-column">
+      <mat-form-field>
+        <input matInput [matDatepicker]="picker" placeholder="Choose a date" />
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+      <mat-radio-group aria-label="Select an option">
+        <mat-radio-button value="1">Option 1</mat-radio-button>
+        <mat-radio-button value="2">Option 2</mat-radio-button>
+      </mat-radio-group>
+    </mat-card>
+
+    <!-- trigger -->
+    <mat-card class="flex-column margin-both">
+      <mat-checkbox>Check me!</mat-checkbox>
+      <mat-select>
+        <mat-option *ngFor="let food of foods" [value]="food.value">
+          {{ food.viewValue }}
+        </mat-option>
+      </mat-select>
+    </mat-card>
+
+    <!-- constraint -->
+    <mat-select>
+      <mat-option *ngFor="let food of foods" [value]="food.value">
+        {{ food.viewValue }}
+      </mat-option>
+    </mat-select>
+    <mat-card class="margin-both flex-column">
+      <mat-form-field class="example-full-width">
+        <input matInput placeholder="Favorite food" value="Sushi" />
+      </mat-form-field>
+      <mat-radio-group aria-label="Select an option">
+        <mat-radio-button value="1">Option 1</mat-radio-button>
+        <mat-radio-button value="2">Option 2</mat-radio-button>
+      </mat-radio-group>
+    </mat-card>
+
+    <!-- deadline -->
+    <mat-form-field class="example-full-width">
+      <input matInput placeholder="Favorite food" value="Sushi" />
+    </mat-form-field>
+
+    <!-- processing -->
+    <mat-form-field class="example-full-width">
+      <input matInput placeholder="Favorite food" value="Sushi" />
+    </mat-form-field>
+
+    <!-- bonus checks + description-->
+    <mat-card class="flex">
+      <mat-checkbox>Check me!</mat-checkbox>
+      <mat-checkbox>Check me!</mat-checkbox>
+      <mat-checkbox>Check me!</mat-checkbox>
+      <mat-checkbox>Check me!</mat-checkbox>
+    </mat-card>
+    <mat-form-field appearance="outline" class="margin-both">
+      <textarea matInput placeholder="Textarea"></textarea>
+    </mat-form-field>
+
+    <!-- decision buttons -->
+    <div class="buttons">
+      <button mat-raised-button>Basic</button>
+      <button mat-raised-button>Basic</button>
+    </div>
+  </form>
+</mat-card>
