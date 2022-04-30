@@ -1,5 +1,10 @@
 import { Component, OnInit } from "@angular/core";
-import { FormControl, FormGroup } from "@angular/forms";
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from "@angular/forms";
 import { ActivatedRoute } from "@angular/router";
 import ApiResponse from "src/app/shared/models/api-response.model";
 
@@ -51,29 +56,120 @@ export class ElementComponent implements OnInit {
     },
   ];
 
-  elementForm = new FormGroup({
-    name: new FormControl(""),
-    description: new FormControl(""),
-    triggerdateLbman: new FormControl(false),
-    triggerdateSvcscat: new FormControl(false),
-    triggerdateItem: new FormControl(false),
-    isinterimtrigger: new FormControl(false),
-    constraintLbman: new FormControl(false),
-    constraintSvcscat: new FormControl(false),
-    constraintItem: new FormControl(false),
-    purma: new FormControl(false),
-    nntm: new FormControl(false),
-    pdbtm: new FormControl(false),
-    dsart: new FormControl(false),
-    trigger: new FormControl(-1),
-    interimtrigger: new FormControl(false),
-    constraint: new FormControl(""),
-    lbmanEffectivedeadlineinfo: new FormControl(""),
-    lbmanProcbasisref: new FormControl(""),
-    editable: new FormControl(false),
-  });
+  triggers = [
+    {
+      value: false,
+      viewValue: "Lawful",
+      formName: "triggerdateLbman",
+    },
+    {
+      value: false,
+      viewValue: "Service category",
+      formName: "triggerdateSvcscat",
+    },
+    {
+      value: false,
+      viewValue: "Item",
+      formName: "triggerdateItem",
+    },
+  ];
 
-  constructor(private route: ActivatedRoute) {}
+  constraints = [
+    {
+      value: false,
+      viewValue: "Lawful",
+      formName: "constraintLbman",
+    },
+    {
+      value: false,
+      viewValue: "Service category",
+      formName: "constraintSvcscat",
+    },
+    {
+      value: false,
+      viewValue: "Item",
+      formName: "constraintItem",
+    },
+  ];
+
+  bonusOptions = [
+    {
+      value: false,
+      viewValue: "PURMA",
+      formName: "purma",
+    },
+    {
+      value: false,
+      viewValue: "NNTM",
+      formName: "nntm",
+    },
+    {
+      value: false,
+      viewValue: "PDB",
+      formName: "pdbtm",
+    },
+    {
+      value: false,
+      viewValue: "DSART",
+      formName: "dsart",
+    },
+  ];
+
+  deadlineOptions = [
+    {
+      value: "1",
+      viewValue: "dead",
+    },
+    {
+      value: "1",
+      viewValue: "line",
+    },
+    {
+      value: "1",
+      viewValue: "option",
+    },
+  ];
+
+  processingOptions = [
+    {
+      value: "1",
+      viewValue: "dead",
+    },
+    {
+      value: "1",
+      viewValue: "line",
+    },
+    {
+      value: "1",
+      viewValue: "option",
+    },
+  ];
+
+  elementForm: FormGroup;
+
+  constructor(private route: ActivatedRoute, private fb: FormBuilder) {
+    this.elementForm = fb.group({
+      name: ["", Validators.required],
+      description: [""],
+      triggerdateLbman: [false],
+      triggerdateSvcscat: [false],
+      triggerdateItem: [false],
+      isinterimtrigger: [false],
+      constraintLbman: [false],
+      constraintSvcscat: [false],
+      constraintItem: [false],
+      purma: [false],
+      nntm: [false],
+      pdbtm: [false],
+      dsart: [false],
+      trigger: [-1, Validators.required],
+      interimtrigger: [false],
+      constraint: ["", Validators.required],
+      lbmanEffectivedeadlineinfo: ["", Validators.required],
+      lbmanProcbasisref: [""],
+      editable: [false],
+    });
+  }
 
   ngOnInit() {}
 
@@ -83,5 +179,12 @@ export class ElementComponent implements OnInit {
     });
   }
 
-  update(): void {}
+  update(): void {
+    console.log("lol");
+    console.log(this.elementForm.value);
+  }
+
+  updateTrigger(triggerName: string, value: boolean): void {
+    this.elementForm.setValue({ [triggerName]: value });
+  }
 }

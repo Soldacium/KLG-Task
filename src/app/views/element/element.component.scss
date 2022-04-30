@@ -1,3 +1,7 @@
+.wrapper {
+  margin: 1em 2em;
+}
+
 .form {
   display: flex;
   flex-direction: column;
@@ -10,4 +14,8 @@
 
 .margin-both {
   margin: 1em 0;
+}
+
+.mat-checkbox {
+  margin-right: 1em;
 }

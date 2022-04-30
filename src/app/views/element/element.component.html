@@ -1,78 +1,117 @@
-<mat-card>
+<mat-card class="wrapper">
   <mat-card-header>
     <mat-card-title>Shiba Inu</mat-card-title>
   </mat-card-header>
   <form class="flex-column" [formGroup]="elementForm" (ngSubmit)="update()">
     <!-- basic -->
     <mat-form-field appearance="outline">
-      <mat-label>Outline form field</mat-label>
-      <input matInput placeholder="Placeholder" />
-      <mat-hint>Hint</mat-hint>
+      <mat-label>Name</mat-label>
+      <input
+        formControlName="name"
+        matInput
+        type="text"
+        placeholder="Placeholder"
+        required
+      />
     </mat-form-field>
     <mat-form-field>
       <mat-label>Trigger name</mat-label>
-      <mat-select>
-        <mat-option *ngFor="let food of foods" [value]="food.value">
-          {{ food.viewValue }}
-        </mat-option>
-      </mat-select>
+      <input
+        formControlName="name"
+        matInput
+        type="text"
+        placeholder="Placeholder"
+        required
+      />
     </mat-form-field>
 
     <!-- date -->
-    <mat-card class="flex-column">
-      <mat-form-field>
-        <input matInput [matDatepicker]="picker" placeholder="Choose a date" />
-        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-datepicker #picker></mat-datepicker>
-      </mat-form-field>
-      <mat-radio-group aria-label="Select an option">
-        <mat-radio-button value="1">Option 1</mat-radio-button>
-        <mat-radio-button value="2">Option 2</mat-radio-button>
-      </mat-radio-group>
+    <mat-card class="margin-both">
+      <mat-card-header>
+        <mat-card-subtitle>Trigger date known</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <mat-checkbox
+          [formControlName]="trigger.formName"
+          *ngFor="let trigger of triggers"
+        >
+          {{ trigger.viewValue }}
+        </mat-checkbox>
+      </mat-card-content>
     </mat-card>
 
     <!-- trigger -->
     <mat-card class="flex-column margin-both">
-      <mat-checkbox>Check me!</mat-checkbox>
-      <mat-select>
+      <mat-checkbox formControlName="interimtrigger"
+        >Is Interim trigger</mat-checkbox
+      >
+      <mat-form-field>
+        <mat-label>Trigger name</mat-label>
+        <mat-select>
+          <mat-option *ngFor="let food of foods" [value]="food.value">
+            {{ food.viewValue }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </mat-card>
+
+    <!-- constraint -->
+    <mat-form-field>
+      <mat-label>Constraint name</mat-label>
+      <mat-select formControlName="constraint" required>
         <mat-option *ngFor="let food of foods" [value]="food.value">
           {{ food.viewValue }}
         </mat-option>
       </mat-select>
-    </mat-card>
-
-    <!-- constraint -->
-    <mat-select>
-      <mat-option *ngFor="let food of foods" [value]="food.value">
-        {{ food.viewValue }}
-      </mat-option>
-    </mat-select>
+    </mat-form-field>
     <mat-card class="margin-both flex-column">
-      <mat-form-field class="example-full-width">
-        <input matInput placeholder="Favorite food" value="Sushi" />
-      </mat-form-field>
-      <mat-radio-group aria-label="Select an option">
-        <mat-radio-button value="1">Option 1</mat-radio-button>
-        <mat-radio-button value="2">Option 2</mat-radio-button>
-      </mat-radio-group>
+      <mat-card-header>
+        <mat-card-subtitle>Constraint value known</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <mat-checkbox
+          *ngFor="let constraint of constraints"
+          [formControlName]="constraint.formName"
+        >
+          {{ constraint.viewValue }}
+        </mat-checkbox>
+      </mat-card-content>
     </mat-card>
 
     <!-- deadline -->
-    <mat-form-field class="example-full-width">
-      <input matInput placeholder="Favorite food" value="Sushi" />
+    <mat-form-field>
+      <mat-label>Effective deadline info</mat-label>
+      <mat-select required>
+        <mat-option
+          *ngFor="let deadline of deadlineOptions"
+          [value]="deadline.value"
+        >
+          {{ deadline.viewValue }}
+        </mat-option>
+      </mat-select>
     </mat-form-field>
 
     <!-- processing -->
-    <mat-form-field class="example-full-width">
-      <input matInput placeholder="Favorite food" value="Sushi" />
+    <mat-form-field>
+      <mat-label>Realated Processing Basis Reference Type</mat-label>
+      <mat-select>
+        <mat-option
+          *ngFor="let process of processingOptions"
+          [value]="process.value"
+        >
+          {{ process.viewValue }}
+        </mat-option>
+      </mat-select>
     </mat-form-field>
 
     <!-- bonus checks + description-->
     <mat-card class="flex">
-      <mat-checkbox>Check me!</mat-checkbox>
-      <mat-checkbox>Check me!</mat-checkbox>
-      <mat-checkbox>Check me!</mat-checkbox>
-      <mat-checkbox>Check me!</mat-checkbox>
+      <mat-checkbox
+        *ngFor="let option of bonusOptions"
+        [formControlName]="option.formName"
+      >
+        {{ option.viewValue }}
+      </mat-checkbox>
     </mat-card>
     <mat-form-field appearance="outline" class="margin-both">
       <textarea matInput placeholder="Textarea"></textarea>
@@ -80,7 +119,7 @@
 
     <!-- decision buttons -->
     <div class="buttons">
-      <button mat-raised-button>Basic</button>
+      <button type="submit" mat-raised-button>Submit</button>
       <button mat-raised-button>Basic</button>
     </div>
   </form>
