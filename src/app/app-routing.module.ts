@@ -2,6 +2,7 @@ import { NgModule } from "@angular/core";
 import { Routes, RouterModule } from "@angular/router";
 import { ElementComponent } from "./views/element/element.component";
 import { ListComponent } from "./views/list/list.component";
+import { NotFoundComponent } from "./views/not-found/not-found.component";
 
 const routes: Routes = [
   {
@@ -16,6 +17,10 @@ const routes: Routes = [
     path: "edit-element/:id",
     component: ElementComponent,
   },
+  {
+    path: "**",
+    component: NotFoundComponent
+  }
 ];
 
 @NgModule({
