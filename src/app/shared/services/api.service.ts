@@ -9,17 +9,13 @@ import ApiResponse from "../models/api-response.model";
 })
 export class ApiService {
   listSubject: Subject<ApiResponse[]> = new Subject();
-  constructor() {
-    // this.initSource();
-  }
+  constructor() {}
   // basic http
   private http = {
     get: (url: string): Observable<ApiResponse[]> => of(ApiResponseExampleList),
   };
 
   public getAllElements(): Observable<ApiResponse[]> {
-    // this.listObservable = of(ApiResponseExample);\
-
     return this.http.get("").pipe(
       map((res) => {
         return res;
@@ -27,16 +23,6 @@ export class ApiService {
       tap((res) => this.listSubject.next(res))
     );
   }
-
-  // private
-
-  /*
-  public getAllElements(): Subject<ApiResponse[]> {
-    // return this.listObservable;
-    this.listSubject.subscribe((res) => console.log(res));
-    return this.listSubject;
-  }
-  */
 
   public addNewElement(el: ApiResponse): void {
     this.listSubject.subscribe((current) => {
@@ -48,4 +34,12 @@ export class ApiService {
   public editElement(id: number, el: ApiResponse): void {}
 
   public deleteElement(id: number): void {}
+
+  public getElement(id: number): Observable<ApiResponse> {
+    return this.http.get("").pipe(
+      map((res) => {
+        return res[0]; // res.filter((el) => el.id === id)[0];
+      })
+    );
+  }
 }

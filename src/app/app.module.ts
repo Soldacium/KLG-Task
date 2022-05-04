@@ -10,7 +10,11 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { MaterialModule } from "./material.module";
 import { NotFoundComponent } from "./views/not-found/not-found.component";
 import { ReactiveFormsModule } from "@angular/forms";
-import { ViewElementComponent } from './views/view-element/view-element.component';
+import { ViewElementComponent } from "./views/view-element/view-element.component";
+import { ApiService } from "./shared/services/api.service";
+import { EditElementComponent } from "./views/edit-element/edit-element.component";
+import { SavedService } from "./shared/services/saved.service";
+import { SavedComponent } from "./views/saved/saved.component";
 
 // make views into module
 @NgModule({
@@ -20,6 +24,8 @@ import { ViewElementComponent } from './views/view-element/view-element.componen
     ElementComponent,
     NotFoundComponent,
     ViewElementComponent,
+    EditElementComponent,
+    SavedComponent,
   ],
   imports: [
     BrowserModule,
@@ -29,7 +35,7 @@ import { ViewElementComponent } from './views/view-element/view-element.componen
     MaterialModule,
     ReactiveFormsModule,
   ],
-  providers: [],
+  providers: [ApiService, SavedService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

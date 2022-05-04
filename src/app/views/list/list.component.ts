@@ -5,17 +5,20 @@ import ApiResponse from "src/app/shared/models/api-response.model";
 import { ApiService } from "src/app/shared/services/api.service";
 import { MatTableDataSource, Sort } from "@angular/material";
 import { Router } from "@angular/router";
+import { SavedService } from "src/app/shared/services/saved.service";
 
 @Component({
   selector: "app-list",
   templateUrl: "./list.component.html",
   styleUrls: ["./list.component.scss"],
+  providers: [ApiService, SavedService],
 })
 export class ListComponent implements OnInit {
   list: Observable<ApiResponse[]>;
   unsortedList: ApiResponse[];
   sortedList: ApiResponse[];
   sortedTable: MatTableDataSource<ApiResponse>;
+  savedElementsIds: number[];
   displayedColumns: string[] = [
     "name",
     "description",
@@ -30,39 +33,49 @@ export class ListComponent implements OnInit {
     function: (id: number, ...args) => any;
   }[] = [
     {
-      name: "save",
+      name: "view",
       icon: "/assets/icons/eye.svg",
-      function: this.viewElement,
+      function: this.viewElement.bind(this),
     },
     {
-      name: "save",
+      name: "edit",
       icon: "/assets/icons/edit.svg",
-      function: this.editElement,
+      function: this.editElement.bind(this),
     },
     {
       name: "save",
       icon: "/assets/icons/save.svg",
-      function: this.saveElement,
+      function: this.saveElement.bind(this),
     },
     {
-      name: "save",
+      name: "delete",
       icon: "/assets/icons/trash.svg",
-      function: this.deleteElement,
+      function: this.deleteElement.bind(this),
     },
   ];
 
-  constructor(private apiService: ApiService, private router: Router) {}
+  constructor(
+    private router: Router,
+    private apiService: ApiService,
+    private savedService: SavedService
+  ) {}
 
   ngOnInit() {
-    this.setupSubscription();
+    this.setupSubscriptions();
   }
 
-  setupSubscription() {
+  setupSubscriptions() {
     this.list = this.apiService.getAllElements();
     this.list.subscribe((res) => {
       this.unsortedList = res;
       this.sortedTable = new MatTableDataSource(this.unsortedList);
     });
+
+    this.savedService
+      .getSavedElementsSubject()
+      .subscribe((savedElementsIds) => {
+        this.savedElementsIds = savedElementsIds;
+      });
     /*
     this.list.subscribe((res) => {
       console.log(res);
@@ -112,7 +125,7 @@ export class ListComponent implements OnInit {
   }
 
   editElement(elementId: number): void {
-    this.router.navigate([`/edit/${elementId}`]);
+    this.router.navigate([`/edit-element/${elementId}`]);
   }
 
   viewElement(elementId: number): void {
@@ -124,6 +137,12 @@ export class ListComponent implements OnInit {
   }
 
   saveElement(elementId: number): void {
+    if (!this.savedElementsIds.includes(elementId)) {
+      this.savedService.saveElementId(elementId);
+    } else {
+      this.savedService.unsaveElementId(elementId);
+    }
+
     // this.apiService.
   }
 }

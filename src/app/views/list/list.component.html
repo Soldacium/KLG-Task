@@ -49,13 +49,16 @@
         <td mat-cell *matCellDef="let row">{{ row.modifyDate }}</td>
       </ng-container>
 
-      <ng-container matColumnDef="buttons">
+      <ng-container class="buttons" matColumnDef="buttons">
         <th mat-header-cell *matHeaderCellDef></th>
         <td mat-cell *matCellDef="let row">
           <button
             mat-button
             *ngFor="let button of optionButtons"
             (click)="button.function(row.id)"
+            [class.active]="
+              button.icon.includes('save') && savedElementsIds.includes(row.id)
+            "
           >
             <img [src]="button.icon" alt="" />
           </button>

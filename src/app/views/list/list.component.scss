@@ -6,3 +6,23 @@
   padding: 1em 2em;
   width: 100vw;
 }
+
+.mat-column-buttons {
+  width: 155px;
+  position: relative;
+  padding: 1em 0;
+
+  button {
+    // flex: 1 1 4em;
+    width: 50px;
+    padding: 0.5em;
+
+    img {
+      height: 2.5em;
+    }
+
+    &.active {
+      background-color: gray;
+    }
+  }
+}
