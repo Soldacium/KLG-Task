@@ -1,5 +1,5 @@
 .wrapper {
-  margin: 1em 2em;
+  padding: 2em 2em;
 }
 
 .form {
@@ -18,4 +18,14 @@
 
 .mat-checkbox {
   margin-right: 1em;
+}
+
+.mat-cell {
+  padding-right: 1em;
+}
+
+.buttons {
+  .submit {
+    margin-right: 1em;
+  }
 }

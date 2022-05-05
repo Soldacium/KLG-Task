@@ -1,6 +1,40 @@
 /* You can add global styles to this file, and also import other style files */
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;700;900&display=swap");
+html {
+  /*
+  --header1: calc(2.4rem + 1.1vw);
+  --header2: calc(2.1rem + 0.9vw);
+  --header3: calc(1.7rem + 0.7vw);
+  --header4: calc(1.2rem + 0.6vw);
+  --header5: calc(0.7rem + 0.5vw);
+  --text: calc(0.6rem + 0.4vw);
+  --biggerText: calc(1rem + 0.6vw);
+  --biggestText: calc(1.4rem + 0.9vw);
+  --monsterText: calc(1.8rem + 1.1vw);
+  --gray-text: rgb(80,80,80);
+  */
+
+  --colorPrimary: #5cdb95;
+  --colorSecondary: #05386b;
+  --colorAccent: #379683;
+  --colorAccent2: #d81e5b; // use later
+  --colorText: #fcefef;
+
+  scroll-behavior: smooth;
+
+  --smooth-shadow-small: 0 0.5px 0.5px rgba(0, 0, 0, 0.05),
+    0 1px 1px rgba(0, 0, 0, 0.05), 0 2px 2px rgba(0, 0, 0, 0.05),
+    0 4px 4px rgba(0, 0, 0, 0.05), 0 8px 8px rgba(0, 0, 0, 0.05);
+
+  --smooth-shadow-medium: 0 1px 1px rgba(0, 0, 0, 0.065),
+    0 2px 2px rgba(0, 0, 0, 0.065), 0 3px 3px rgba(0, 0, 0, 0.065),
+    0 5px 5px rgba(0, 0, 0, 0.065), 0 8px 8px rgba(0, 0, 0, 0.065);
+
+  --smooth-shadow-big: 0 1px 1px rgba(0, 0, 0, 0.08),
+    0 2px 2px rgba(0, 0, 0, 0.08), 0 4px 4px rgba(0, 0, 0, 0.08),
+    0 8px 8px rgba(0, 0, 0, 0.08), 0 16px 16px rgba(0, 0, 0, 0.08);
+}
 
 body {
   width: 100vw;
@@ -11,7 +45,7 @@ body {
 
   font-family: "Roboto", sans-serif;
   background-color: var(--colorPrimary);
-  color: var(--colorText);
+  // color: var(--colorText);
   background-color: rgb(241, 241, 241);
 
   &::-webkit-scrollbar {
@@ -27,7 +61,7 @@ body {
 
   /* Handle */
   &::-webkit-scrollbar-thumb {
-    background: var(--colorAccent3);
+    background: rgb(151, 151, 151);
     border-radius: 5px;
   }
 

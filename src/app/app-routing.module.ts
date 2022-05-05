@@ -3,7 +3,6 @@ import { Routes, RouterModule } from "@angular/router";
 import { EditElementComponent } from "./views/edit-element/edit-element.component";
 import { ListComponent } from "./views/list/list.component";
 import { NotFoundComponent } from "./views/not-found/not-found.component";
-import { SavedComponent } from "./views/saved/saved.component";
 import { ViewElementComponent } from "./views/view-element/view-element.component";
 
 const routes: Routes = [
@@ -30,12 +29,7 @@ const routes: Routes = [
   {
     path: "edit-element/:id",
     component: EditElementComponent,
-    data: { animation: "slideIn4" },
-  },
-  {
-    path: "saved",
-    component: SavedComponent,
-    data: { animation: "slideIn5" },
+    data: { animation: "slideInView" },
   },
   {
     path: "**",

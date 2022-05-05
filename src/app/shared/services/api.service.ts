@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { from, Observable, of, Subject } from "rxjs";
+import { BehaviorSubject, Observable, of } from "rxjs";
 import { map, tap } from "rxjs/operators";
 import { ApiResponseExampleList } from "../files/api-response-example";
 import ApiResponse from "../models/api-response.model";
@@ -8,7 +8,7 @@ import ApiResponse from "../models/api-response.model";
   providedIn: "root",
 })
 export class ApiService {
-  listSubject: Subject<ApiResponse[]> = new Subject();
+  listSubject: BehaviorSubject<ApiResponse[]> = new BehaviorSubject([]);
   constructor() {}
   // basic http
   private http = {
@@ -25,20 +25,34 @@ export class ApiService {
   }
 
   public addNewElement(el: ApiResponse): void {
-    this.listSubject.subscribe((current) => {
-      current.push(el);
-      this.listSubject.next(current);
-    });
+    const current = this.listSubject.getValue();
+    current.push(el);
+    this.listSubject.next(current);
   }
 
-  public editElement(id: number, el: ApiResponse): void {}
+  public editElement(el: ApiResponse): void {
+    const current = this.listSubject.getValue();
+    const editedElementIndex = current.findIndex(
+      (element) => element.id === el.id
+    );
+    current[editedElementIndex] = el;
+    this.listSubject.next(current);
+  }
 
-  public deleteElement(id: number): void {}
+  public deleteElement(elementId: number): void {
+    const current = this.listSubject.getValue();
+    current.splice(
+      current.findIndex((el) => el.id === elementId),
+      1
+    );
+    this.listSubject.next(current);
+  }
 
-  public getElement(id: number): Observable<ApiResponse> {
+  public getElement(id: number | string): Observable<ApiResponse> {
+    typeof id === "string" ? (id = parseInt(id, 10)) : (id = id);
     return this.http.get("").pipe(
       map((res) => {
-        return res[0]; // res.filter((el) => el.id === id)[0];
+        return res.find((el) => el.id === id);
       })
     );
   }

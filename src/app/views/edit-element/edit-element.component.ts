@@ -5,7 +5,7 @@ import {
   FormGroup,
   Validators,
 } from "@angular/forms";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import ApiResponse from "src/app/shared/models/api-response.model";
 import { ApiService } from "src/app/shared/services/api.service";
 
@@ -13,51 +13,62 @@ import { ApiService } from "src/app/shared/services/api.service";
   selector: "app-edit-element",
   templateUrl: "./edit-element.component.html",
   styleUrls: ["./edit-element.component.scss"],
+  providers: [ApiService],
 })
 export class EditElementComponent implements OnInit {
   id: number | null = -1;
-  element: ApiResponse = {
-    id: 19,
-    name: "Contract fix timeframe  - Lawful Basis Start and End date known without Interim Trigger.",
-    status: "ACTIVE",
-    modifyBy: "klg",
-    modifyDate: "2019-01-30 12:27:22.000490",
-    description: null,
-    triggerdateLbman: true,
-    triggerdateSvcscat: null,
-    triggerdateItem: false,
-    isinterimtrigger: false,
-    constraintLbman: true,
-    constraintSvcscat: null,
-    constraintItem: false,
-    purma: false,
-    nntm: true,
-    pdbtm: false,
-    dsart: false,
-    trigger: 8,
-    interimtrigger: null,
-    constraint: null,
-    lbmanEffectivedeadlineinfo: null,
-    lbmanProcbasisref: null,
-    editable: true,
-  };
+  triggerNames = [
+    {
+      value: 1,
+      viewValue: "1",
+    },
 
-  foods = [
     {
-      value: 1,
-      viewValue: "lol",
+      value: 2,
+      viewValue: "2",
     },
     {
-      value: 1,
-      viewValue: "lol",
+      value: 3,
+      viewValue: "3",
     },
     {
-      value: 1,
-      viewValue: "lol",
+      value: 4,
+      viewValue: "4",
+    },
+    {
+      value: 5,
+      viewValue: "5",
+    },
+    {
+      value: 8,
+      viewValue: "8",
+    },
+    {
+      value: 27,
+      viewValue: "27",
+    },
+    {
+      value: 33,
+      viewValue: "33",
     },
   ];
 
-  triggers = [
+  interimtriggerNames = [
+    {
+      value: 33,
+      viewValue: "33",
+    },
+    {
+      value: 30,
+      viewValue: "30",
+    },
+    {
+      value: 27,
+      viewValue: "27",
+    },
+  ];
+
+  triggersDates = [
     {
       value: false,
       viewValue: "Lawful",
@@ -72,6 +83,21 @@ export class EditElementComponent implements OnInit {
       value: false,
       viewValue: "Item",
       formName: "triggerdateItem",
+    },
+  ];
+
+  constraintNames = [
+    {
+      value: 1,
+      viewValue: "1",
+    },
+    {
+      value: 2,
+      viewValue: "2",
+    },
+    {
+      value: 3,
+      viewValue: "3",
     },
   ];
 
@@ -118,15 +144,15 @@ export class EditElementComponent implements OnInit {
 
   deadlineOptions = [
     {
-      value: "1",
+      value: 1,
       viewValue: "dead",
     },
     {
-      value: "1",
+      value: 2,
       viewValue: "line",
     },
     {
-      value: "1",
+      value: 3,
       viewValue: "option",
     },
   ];
@@ -134,11 +160,11 @@ export class EditElementComponent implements OnInit {
   processingOptions = [
     {
       value: "1",
-      viewValue: "dead",
+      viewValue: "pro",
     },
     {
       value: "1",
-      viewValue: "line",
+      viewValue: "cessing",
     },
     {
       value: "1",
@@ -151,9 +177,32 @@ export class EditElementComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private fb: FormBuilder,
-    private apiService: ApiService
-  ) {
-    this.elementForm = fb.group({
+    private apiService: ApiService,
+    private router: Router
+  ) {}
+
+  async ngOnInit() {
+    await this.setupElementForm();
+    this.getElementId();
+  }
+
+  getElementId(): void {
+    this.route.params.subscribe((params) => {
+      this.id = params["id"];
+      if (this.id) {
+        this.getElementData(this.id);
+      }
+    });
+  }
+
+  async setupElementForm(): Promise<void> {
+    const newestId = (
+      await this.apiService
+        .getAllElements()
+        .toPromise()
+        .then((res) => res)
+    ).length;
+    this.elementForm = this.fb.group({
       name: ["", Validators.required],
       description: [""],
       triggerdateLbman: [false],
@@ -173,56 +222,39 @@ export class EditElementComponent implements OnInit {
       lbmanEffectivedeadlineinfo: ["", Validators.required],
       lbmanProcbasisref: [""],
       editable: [false],
-    });
-
-    this.getElementId();
-  }
-
-  ngOnInit() {}
-
-  getElementId(): void {
-    this.route.params.subscribe((params) => {
-      this.id = params["id"];
-      if (this.id) {
-        this.getElementData(this.id);
-      }
+      id: newestId,
+      status: "ACTIVE",
+      modifyBy: "klg",
+      modifyDate: "2019-01-30 12:27:22.000490",
     });
   }
+
   getElementData(elementId: number): void {
     this.apiService.getElement(elementId).subscribe((el) => {
-      this.element = el;
-      this.setElementForm(this.element);
+      this.setElementForm(el);
     });
   }
 
   setElementForm(element: ApiResponse) {
-    console.log(element);
-    this.elementForm.setValue({
-      name: element.name,
-      description: element.description,
-      triggerdateLbman: element.triggerdateLbman,
-      triggerdateSvcscat: element.triggerdateSvcscat,
-      triggerdateItem: element.triggerdateItem,
-      isinterimtrigger: element.isinterimtrigger,
-      constraintLbman: element.constraintLbman,
-      constraintSvcscat: element.constraintSvcscat,
-      constraintItem: element.constraintItem,
-      purma: element.purma,
-      nntm: element.nntm,
-      pdbtm: element.pdbtm,
-      dsart: element.dsart,
-      trigger: element.trigger,
-      interimtrigger: element.interimtrigger,
-      constraint: element.constraint,
-      lbmanEffectivedeadlineinfo: element.lbmanEffectivedeadlineinfo,
-      lbmanProcbasisref: element.lbmanProcbasisref,
-      editable: element.editable,
-    });
+    this.elementForm.setValue(element);
   }
 
-  update(): void {
-    console.log("lol");
-    console.log(this.elementForm.value);
+  submit(): void {
+    const date = new Date();
+    // date format different
+    this.elementForm.controls["modifyDate"].setValue(date.toTimeString());
+    this.elementForm.controls["modifyBy"].setValue("custom user");
+    // could wait for response and display loading, but it's basically instant in this case
+    if (this.id && this.id !== -1) {
+      this.apiService.editElement(this.elementForm.value);
+    } else {
+      this.apiService.addNewElement(this.elementForm.value);
+    }
+    this.router.navigate(["/list"]);
+  }
+
+  cancel(): void {
+    this.router.navigate(["/list"]);
   }
 
   updateTrigger(triggerName: string, value: boolean): void {

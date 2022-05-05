@@ -18,7 +18,6 @@ export const routeAnimations = trigger("routeAnimations", [
         left: 0,
         width: "100%",
         height: "500%",
-        "background-color": "#ccc",
       }),
     ]),
     query(":enter", [
@@ -26,12 +25,12 @@ export const routeAnimations = trigger("routeAnimations", [
     ]),
     query(":leave", animateChild()),
     group([
-      query(":leave", [animate("1000ms ease", style({ left: "100%" }))]),
-      query(":enter", [animate("1700ms ease", style({ left: "0%" }))]),
+      query(":leave", [animate("500ms ease", style({ left: "100%" }))]),
+      query(":enter", [animate("500ms ease", style({ left: "0%" }))]),
     ]),
     query(":enter", animateChild()),
   ]),
-  transition("post => blog", [
+  transition("slideInView => slideInList", [
     style({ position: "relative" }),
     query(":enter, :leave", [
       style({
@@ -47,7 +46,7 @@ export const routeAnimations = trigger("routeAnimations", [
       query(":leave", [
         animate("500ms ease-out", style({ right: "100%", "z-index": 20 })),
       ]),
-      query(":enter", [animate("300ms ease-out", style({ right: "0%" }))]),
+      query(":enter", [animate("500ms ease-out", style({ right: "0%" }))]),
     ]),
     query(":enter", animateChild()),
   ]),

@@ -1,126 +1,151 @@
-<mat-card class="wrapper">
-  <mat-card-header>
-    <mat-card-title>Shiba Inu</mat-card-title>
-  </mat-card-header>
-  <form class="flex-column" [formGroup]="elementForm" (ngSubmit)="update()">
-    <!-- basic -->
-    <mat-form-field appearance="outline">
-      <mat-label>Name</mat-label>
-      <input
-        formControlName="name"
-        matInput
-        type="text"
-        placeholder="Placeholder"
-        required
-      />
-    </mat-form-field>
-    <mat-form-field>
-      <mat-label>Trigger name</mat-label>
-      <input
-        formControlName="name"
-        matInput
-        type="text"
-        placeholder="Placeholder"
-        required
-      />
-    </mat-form-field>
-
-    <!-- date -->
-    <mat-card class="margin-both">
-      <mat-card-header>
-        <mat-card-subtitle>Trigger date known</mat-card-subtitle>
-      </mat-card-header>
-      <mat-card-content>
-        <mat-checkbox
-          [formControlName]="trigger.formName"
-          *ngFor="let trigger of triggers"
-        >
-          {{ trigger.viewValue }}
-        </mat-checkbox>
-      </mat-card-content>
-    </mat-card>
-
-    <!-- trigger -->
-    <mat-card class="flex-column margin-both">
-      <mat-checkbox formControlName="interimtrigger"
-        >Is Interim trigger</mat-checkbox
-      >
+<div class="wrapper">
+  <mat-card *ngIf="elementForm">
+    <mat-card-header>
+      <mat-card-title>
+        <span *ngIf="id; else newElementTitle">Edit element id {{ id }}</span>
+        <ng-template #newElementTitle>Make new element</ng-template>
+      </mat-card-title>
+    </mat-card-header>
+    <form class="flex-column" [formGroup]="elementForm" (ngSubmit)="submit()">
+      <!-- basic -->
+      <mat-form-field appearance="outline">
+        <mat-label>Name</mat-label>
+        <input
+          formControlName="name"
+          matInput
+          type="text"
+          placeholder="Placeholder"
+          required
+        />
+      </mat-form-field>
       <mat-form-field>
         <mat-label>Trigger name</mat-label>
-        <mat-select>
-          <mat-option *ngFor="let food of foods" [value]="food.value">
-            {{ food.viewValue }}
+        <mat-select formControlName="trigger">
+          <mat-option
+            *ngFor="let triggerName of triggerNames"
+            [value]="triggerName.value"
+            required
+          >
+            {{ triggerName.viewValue }}
           </mat-option>
         </mat-select>
       </mat-form-field>
-    </mat-card>
 
-    <!-- constraint -->
-    <mat-form-field>
-      <mat-label>Constraint name</mat-label>
-      <mat-select formControlName="constraint" required>
-        <mat-option *ngFor="let food of foods" [value]="food.value">
-          {{ food.viewValue }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-    <mat-card class="margin-both flex-column">
-      <mat-card-header>
-        <mat-card-subtitle>Constraint value known</mat-card-subtitle>
-      </mat-card-header>
-      <mat-card-content>
+      <!-- date -->
+      <mat-card class="margin-both">
+        <mat-card-header>
+          <mat-card-subtitle>Trigger date known</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <mat-checkbox
+            [formControlName]="trigger.formName"
+            *ngFor="let trigger of triggersDates"
+          >
+            {{ trigger.viewValue }}
+          </mat-checkbox>
+        </mat-card-content>
+      </mat-card>
+
+      <!-- trigger -->
+      <mat-card class="flex-column margin-both">
+        <mat-checkbox formControlName="isinterimtrigger"
+          >Is Interim trigger</mat-checkbox
+        >
+        <mat-form-field>
+          <mat-label>Trigger name</mat-label>
+          <mat-select formControlName="interimtrigger">
+            <mat-option
+              *ngFor="let triggerName of interimtriggerNames"
+              [value]="triggerName.value"
+            >
+              {{ triggerName.viewValue }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </mat-card>
+
+      <!-- constraint -->
+      <mat-form-field>
+        <mat-label>Constraint name</mat-label>
+        <mat-select formControlName="constraint" required>
+          <mat-option
+            *ngFor="let constraintName of constraintNames"
+            [value]="constraintName.value"
+          >
+            {{ constraintName.viewValue }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-card class="margin-both flex-column">
+        <mat-card-header>
+          <mat-card-subtitle>Constraint value known</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <mat-checkbox
+            *ngFor="let constraint of constraints"
+            [formControlName]="constraint.formName"
+          >
+            {{ constraint.viewValue }}
+          </mat-checkbox>
+        </mat-card-content>
+      </mat-card>
+
+      <!-- deadline -->
+      <mat-form-field>
+        <mat-label>Effective deadline info</mat-label>
+        <mat-select required formControlName="lbmanEffectivedeadlineinfo">
+          <mat-option
+            *ngFor="let deadline of deadlineOptions"
+            [value]="deadline.value"
+          >
+            {{ deadline.viewValue }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <!-- processing -->
+      <mat-form-field>
+        <mat-label>Realated Processing Basis Reference Type</mat-label>
+        <mat-select formControlName="lbmanProcbasisref">
+          <mat-option
+            *ngFor="let process of processingOptions"
+            [value]="process.value"
+          >
+            {{ process.viewValue }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <!-- bonus checks + description-->
+      <mat-card class="flex">
         <mat-checkbox
-          *ngFor="let constraint of constraints"
-          [formControlName]="constraint.formName"
+          *ngFor="let option of bonusOptions"
+          [formControlName]="option.formName"
         >
-          {{ constraint.viewValue }}
+          {{ option.viewValue }}
         </mat-checkbox>
-      </mat-card-content>
-    </mat-card>
+      </mat-card>
+      <mat-form-field appearance="outline" class="margin-both">
+        <textarea
+          matInput
+          placeholder="Textarea"
+          formControlName="description"
+        ></textarea>
+      </mat-form-field>
 
-    <!-- deadline -->
-    <mat-form-field>
-      <mat-label>Effective deadline info</mat-label>
-      <mat-select required>
-        <mat-option
-          *ngFor="let deadline of deadlineOptions"
-          [value]="deadline.value"
+      <!-- decision buttons -->
+      <div class="buttons">
+        <button
+          [disabled]="!elementForm.valid"
+          class="submit"
+          type="submit"
+          mat-raised-button
+          color="primary"
         >
-          {{ deadline.viewValue }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-
-    <!-- processing -->
-    <mat-form-field>
-      <mat-label>Realated Processing Basis Reference Type</mat-label>
-      <mat-select>
-        <mat-option
-          *ngFor="let process of processingOptions"
-          [value]="process.value"
-        >
-          {{ process.viewValue }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-
-    <!-- bonus checks + description-->
-    <mat-card class="flex">
-      <mat-checkbox
-        *ngFor="let option of bonusOptions"
-        [formControlName]="option.formName"
-      >
-        {{ option.viewValue }}
-      </mat-checkbox>
-    </mat-card>
-    <mat-form-field appearance="outline" class="margin-both">
-      <textarea matInput placeholder="Textarea"></textarea>
-    </mat-form-field>
-
-    <!-- decision buttons -->
-    <div class="buttons">
-      <button type="submit" mat-raised-button>Submit</button>
-      <button mat-raised-button>Basic</button>
-    </div>
-  </form>
-</mat-card>
+          Submit
+        </button>
+        <button (click)="cancel()" mat-raised-button>Cancel</button>
+      </div>
+    </form>
+  </mat-card>
+</div>

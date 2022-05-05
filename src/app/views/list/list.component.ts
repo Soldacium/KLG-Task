@@ -1,6 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { Observable, Subject } from "rxjs";
-import { ApiResponseExample } from "src/app/shared/files/api-response-example";
+import { Observable } from "rxjs";
 import ApiResponse from "src/app/shared/models/api-response.model";
 import { ApiService } from "src/app/shared/services/api.service";
 import { MatTableDataSource, Sort } from "@angular/material";
@@ -22,6 +21,7 @@ export class ListComponent implements OnInit {
   displayedColumns: string[] = [
     "name",
     "description",
+    "trigger",
     "interimtrigger",
     "modifyDate",
     "buttons",
@@ -65,29 +65,28 @@ export class ListComponent implements OnInit {
   }
 
   setupSubscriptions() {
-    this.list = this.apiService.getAllElements();
-    this.list.subscribe((res) => {
+    this.apiService.listSubject.subscribe((res) => {
       this.unsortedList = res;
       this.sortedTable = new MatTableDataSource(this.unsortedList);
     });
+
+    this.apiService
+      .getAllElements()
+      .toPromise()
+      .then((res) => {
+        this.unsortedList = res;
+        this.sortedTable = new MatTableDataSource(this.unsortedList);
+      });
 
     this.savedService
       .getSavedElementsSubject()
       .subscribe((savedElementsIds) => {
         this.savedElementsIds = savedElementsIds;
       });
-    /*
-    this.list.subscribe((res) => {
-      console.log(res);
-    });
-
-    this.apiService.addNewElement(ApiResponseExample);
-    */
   }
 
   sortData(sort: Sort) {
     const data = this.unsortedList.slice();
-    console.log(data, sort);
     if (!sort.active || sort.direction === "") {
       this.sortedTable = new MatTableDataSource(data);
       return;
@@ -142,7 +141,5 @@ export class ListComponent implements OnInit {
     } else {
       this.savedService.unsaveElementId(elementId);
     }
-
-    // this.apiService.
   }
 }
